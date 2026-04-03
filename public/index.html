@@ -5,44 +5,45 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>NEXUS·AI — Neural Image Synthesis</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  font-family: 'Share Tech Mono', monospace;
-  background: #020812;
-  color: #a0d4ff;
-  min-height: 100vh;
-  padding: 2rem 1.5rem;
-  position: relative;
-  overflow-x: hidden;
-}
-.grid-bg {
-  position: fixed; inset: 0; pointer-events: none; z-index: 0;
-  background-image:
-    linear-gradient(rgba(0,180,255,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,180,255,0.04) 1px, transparent 1px);
-  background-size: 40px 40px;
-}
-.scanline {
-  position: fixed; inset: 0; pointer-events: none; z-index: 0;
-  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.06) 2px, rgba(0,0,0,0.06) 4px);
-  animation: scan 8s linear infinite;
-}
+body { font-family: 'Share Tech Mono', monospace; background: #020812; color: #a0d4ff; min-height: 100vh; padding: 2rem 1.5rem; position: relative; overflow-x: hidden; }
+.grid-bg { position: fixed; inset: 0; pointer-events: none; z-index: 0; background-image: linear-gradient(rgba(0,180,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,180,255,0.04) 1px, transparent 1px); background-size: 40px 40px; }
+.scanline { position: fixed; inset: 0; pointer-events: none; z-index: 0; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.06) 2px, rgba(0,0,0,0.06) 4px); animation: scan 8s linear infinite; }
 @keyframes scan { 0% { background-position: 0 0; } 100% { background-position: 0 100px; } }
 .content { position: relative; z-index: 1; max-width: 760px; margin: 0 auto; }
-.header { text-align: center; margin-bottom: 2.5rem; }
-.logo {
-  font-family: 'Orbitron', sans-serif;
-  font-size: clamp(1.8rem, 5vw, 3rem);
-  font-weight: 900;
-  letter-spacing: 0.2em;
-  color: #00cfff;
-  text-shadow: 0 0 20px rgba(0,207,255,0.4), 0 0 60px rgba(0,207,255,0.15);
-  animation: pulse 3s ease-in-out infinite;
-}
+.header { text-align: center; margin-bottom: 2rem; }
+.logo { font-family: 'Orbitron', sans-serif; font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 900; letter-spacing: 0.2em; color: #00cfff; text-shadow: 0 0 20px rgba(0,207,255,0.4); animation: pulse 3s ease-in-out infinite; }
 @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.82;} }
 .logo-sub { font-size: 0.65rem; letter-spacing: 0.4em; color: #2a5a7a; margin-top: 8px; text-transform: uppercase; }
 .hline { height: 1px; background: linear-gradient(90deg, transparent, rgba(0,207,255,0.4), transparent); margin: 1.25rem auto; max-width: 320px; }
+.credits-bar { display: flex; align-items: center; justify-content: space-between; background: rgba(0,18,38,0.85); border: 1px solid rgba(0,180,255,0.18); border-radius: 4px; padding: 0.75rem 1.25rem; margin-bottom: 1.25rem; }
+.credits-info { display: flex; align-items: center; gap: 10px; }
+.credits-count { font-family: 'Orbitron', sans-serif; font-size: 1.2rem; color: #00cfff; font-weight: 700; }
+.credits-label { font-size: 0.6rem; color: #2a5a7a; letter-spacing: 0.2em; text-transform: uppercase; }
+.btn-buy { background: transparent; border: 1px solid #00cfff; border-radius: 3px; color: #00cfff; font-family: 'Orbitron', sans-serif; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.2em; padding: 8px 16px; cursor: pointer; transition: all 0.2s; }
+.btn-buy:hover { background: rgba(0,207,255,0.1); }
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 100; align-items: center; justify-content: center; padding: 1rem; }
+.modal-overlay.open { display: flex; }
+.modal { background: #020f1e; border: 1px solid rgba(0,180,255,0.3); border-radius: 6px; padding: 2rem; width: 100%; max-width: 480px; position: relative; }
+.modal-title { font-family: 'Orbitron', sans-serif; font-size: 1rem; color: #00cfff; letter-spacing: 0.2em; margin-bottom: 0.5rem; text-align: center; }
+.modal-sub { font-size: 0.62rem; color: #2a5a7a; text-align: center; letter-spacing: 0.15em; margin-bottom: 1.5rem; }
+.modal-close { position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: #2a5a7a; font-size: 1.2rem; cursor: pointer; font-family: 'Share Tech Mono', monospace; }
+.modal-close:hover { color: #00cfff; }
+.packages { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.pkg-card { background: rgba(0,18,38,0.9); border: 1px solid rgba(0,180,255,0.18); border-radius: 4px; padding: 1rem; cursor: pointer; transition: all 0.2s; position: relative; text-align: center; }
+.pkg-card:hover { border-color: rgba(0,207,255,0.6); background: rgba(0,207,255,0.05); }
+.pkg-card.popular { border-color: rgba(0,207,255,0.5); }
+.popular-badge { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: #00cfff; color: #020812; font-size: 0.55rem; font-weight: 700; letter-spacing: 0.15em; padding: 2px 10px; border-radius: 10px; white-space: nowrap; font-family: 'Orbitron', sans-serif; }
+.pkg-name { font-family: 'Orbitron', sans-serif; font-size: 0.7rem; color: #00cfff; letter-spacing: 0.15em; margin-bottom: 6px; }
+.pkg-images { font-size: 1.4rem; font-weight: 700; color: #a0d4ff; margin-bottom: 2px; }
+.pkg-images-label { font-size: 0.58rem; color: #2a5a7a; letter-spacing: 0.15em; margin-bottom: 10px; }
+.pkg-price { font-family: 'Orbitron', sans-serif; font-size: 1.1rem; color: #00cfff; font-weight: 700; }
+.pkg-per { font-size: 0.55rem; color: #2a5a7a; letter-spacing: 0.1em; margin-top: 2px; }
+.payment-msg { text-align: center; margin-top: 1rem; font-size: 0.62rem; color: #2a5a7a; letter-spacing: 0.1em; }
+.payment-msg.success { color: #00e676; }
+.payment-msg.error { color: #ff6b6b; }
 .card { background: rgba(0,18,38,0.85); border: 1px solid rgba(0,180,255,0.18); border-radius: 4px; padding: 1.5rem; margin-bottom: 1.25rem; position: relative; }
 .corner { position: absolute; width: 12px; height: 12px; border-color: #00cfff; border-style: solid; }
 .corner-tl { top:-1px; left:-1px; border-width:2px 0 0 2px; }
@@ -61,14 +62,17 @@ textarea.prompt:focus { border-color: rgba(0,207,255,0.55); }
 select { width: 100%; background: rgba(0,8,20,0.9); border: 1px solid rgba(0,180,255,0.2); border-radius: 3px; color: #a0d4ff; font-family: 'Share Tech Mono', monospace; font-size: 0.78rem; padding: 7px 10px; outline: none; appearance: none; cursor: pointer; }
 .btn-generate { width: 100%; background: transparent; border: 1px solid #00cfff; border-radius: 3px; color: #00cfff; font-family: 'Orbitron', sans-serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.35em; padding: 1rem; cursor: pointer; text-transform: uppercase; position: relative; overflow: hidden; transition: all 0.25s; margin-bottom: 1rem; }
 .btn-generate:hover { background: rgba(0,207,255,0.07); box-shadow: 0 0 24px rgba(0,207,255,0.25); }
-.btn-generate:active { transform: scale(0.99); }
+.btn-generate:disabled { opacity: 0.4; cursor: not-allowed; border-color: #2a5a7a; color: #2a5a7a; }
 .status-row { display: flex; align-items: center; gap: 8px; font-size: 0.58rem; color: #1e4a6a; letter-spacing: 0.2em; margin-bottom: 1.25rem; }
 .dot { width: 6px; height: 6px; border-radius: 50%; background: #00cfff; flex-shrink: 0; animation: dotPulse 2s ease-in-out infinite; }
 @keyframes dotPulse { 0%,100%{opacity:1;} 50%{opacity:0.25;} }
-.canvas { background: rgba(0,8,20,0.9); border: 1px solid rgba(0,180,255,0.12); border-radius: 4px; min-height: 360px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+.canvas { background: rgba(0,8,20,0.9); border: 1px solid rgba(0,180,255,0.12); border-radius: 4px; min-height: 360px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
 .idle { text-align: center; padding: 2rem; }
 .hex { width: 80px; height: 80px; margin: 0 auto 1.5rem; }
 .idle-text { font-size: 0.62rem; letter-spacing: 0.25em; color: #1e4a6a; text-transform: uppercase; line-height: 2.2; }
+.no-credits { text-align: center; padding: 2rem; }
+.no-credits-title { font-family: 'Orbitron', sans-serif; font-size: 0.8rem; color: #ff6b6b; letter-spacing: 0.15em; margin-bottom: 0.75rem; }
+.no-credits-text { font-size: 0.65rem; color: #2a5a7a; letter-spacing: 0.1em; line-height: 1.8; margin-bottom: 1.25rem; }
 .loading { display: none; text-align: center; padding: 2rem; width: 100%; }
 .load-lbl { font-size: 0.62rem; letter-spacing: 0.28em; color: #2a5a7a; text-transform: uppercase; }
 .bar-wrap { width: 75%; max-width: 300px; height: 2px; background: rgba(0,180,255,0.08); border-radius: 2px; margin: 1.5rem auto; overflow: hidden; }
@@ -89,12 +93,64 @@ select { width: 100%; background: rgba(0,8,20,0.9); border: 1px solid rgba(0,180
 <body>
 <div class="grid-bg"></div>
 <div class="scanline"></div>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title">BUY CREDITS</div>
+    <div class="modal-sub">// SELECT YOUR PACKAGE</div>
+    <div class="packages">
+      <div class="pkg-card" onclick="buyPackage('starter')">
+        <div class="pkg-name">STARTER</div>
+        <div class="pkg-images">5</div>
+        <div class="pkg-images-label">IMAGES</div>
+        <div class="pkg-price">₹49</div>
+        <div class="pkg-per">₹9.8 per image</div>
+      </div>
+      <div class="pkg-card popular" onclick="buyPackage('basic')">
+        <div class="popular-badge">POPULAR</div>
+        <div class="pkg-name">BASIC</div>
+        <div class="pkg-images">10</div>
+        <div class="pkg-images-label">IMAGES</div>
+        <div class="pkg-price">₹99</div>
+        <div class="pkg-per">₹9.9 per image</div>
+      </div>
+      <div class="pkg-card" onclick="buyPackage('pro')">
+        <div class="pkg-name">PRO</div>
+        <div class="pkg-images">25</div>
+        <div class="pkg-images-label">IMAGES</div>
+        <div class="pkg-price">₹199</div>
+        <div class="pkg-per">₹7.9 per image</div>
+      </div>
+      <div class="pkg-card" onclick="buyPackage('unlimited')">
+        <div class="pkg-name">UNLIMITED</div>
+        <div class="pkg-images">∞</div>
+        <div class="pkg-images-label">MONTHLY</div>
+        <div class="pkg-price">₹499</div>
+        <div class="pkg-per">unlimited/month</div>
+      </div>
+    </div>
+    <div class="payment-msg" id="paymentMsg"></div>
+  </div>
+</div>
+
 <div class="content">
   <div class="header">
     <div class="logo">NEXUS·AI</div>
     <div class="logo-sub">Neural Image Synthesis Engine v4.7</div>
     <div class="hline"></div>
   </div>
+
+  <div class="credits-bar">
+    <div class="credits-info">
+      <div>
+        <div class="credits-count" id="creditsCount">3</div>
+        <div class="credits-label">Free credits remaining</div>
+      </div>
+    </div>
+    <button class="btn-buy" onclick="openModal()">[ BUY MORE ]</button>
+  </div>
+
   <div class="card">
     <div class="corner corner-tl"></div><div class="corner corner-tr"></div>
     <div class="corner corner-bl"></div><div class="corner corner-br"></div>
@@ -112,6 +168,7 @@ select { width: 100%; background: rgba(0,8,20,0.9); border: 1px solid rgba(0,180
     </div>
     <div class="error-msg" id="errorMsg"></div>
   </div>
+
   <div class="card">
     <div class="corner corner-tl"></div><div class="corner corner-tr"></div>
     <div class="corner corner-bl"></div><div class="corner corner-br"></div>
@@ -154,11 +211,14 @@ select { width: 100%; background: rgba(0,8,20,0.9); border: 1px solid rgba(0,180
       </div>
     </div>
   </div>
-  <button class="btn-generate" onclick="generate()">[ INITIALIZE SYNTHESIS ]</button>
+
+  <button class="btn-generate" id="generateBtn" onclick="generate()">[ INITIALIZE SYNTHESIS ]</button>
+
   <div class="status-row">
     <div class="dot"></div>
     <span id="statusText">SYSTEM READY — AWAITING INPUT</span>
   </div>
+
   <div class="card">
     <div class="corner corner-tl"></div><div class="corner corner-tr"></div>
     <div class="corner corner-bl"></div><div class="corner corner-br"></div>
@@ -173,6 +233,11 @@ select { width: 100%; background: rgba(0,8,20,0.9); border: 1px solid rgba(0,180
           </svg>
         </div>
         <div class="idle-text">No signal detected<br>Enter prompt to begin synthesis</div>
+      </div>
+      <div class="no-credits" id="noCredits" style="display:none;">
+        <div class="no-credits-title">// NO CREDITS REMAINING</div>
+        <div class="no-credits-text">Your image credits have been used up.<br>Purchase a package to continue.</div>
+        <button class="btn-buy" onclick="openModal()" style="margin:0 auto;display:block;">[ BUY CREDITS ]</button>
       </div>
       <div class="loading" id="loading">
         <div class="load-lbl" id="loadLbl">INITIALIZING NEURAL CORES</div>
@@ -193,32 +258,102 @@ select { width: 100%; background: rgba(0,8,20,0.9); border: 1px solid rgba(0,180
     </div>
   </div>
 </div>
+
 <script>
 const API_URL = '/api/generate';
+const ORDER_URL = '/api/order';
+const PAYMENT_URL = '/api/payment';
+const FREE_CREDITS = 3;
+let credits = parseInt(localStorage.getItem('nexus_credits') ?? FREE_CREDITS);
+let busy = false, lastImageUrl = '', animInterval = null;
 const steps = ["INITIALIZING NEURAL CORES","PARSING SEMANTIC VECTORS","CONNECTING TO SECURE BACKEND","TRANSMITTING PROMPT PAYLOAD","DALL·E 3 DIFFUSION RUNNING","AWAITING MODEL RESPONSE","DECODING IMAGE DATA","FINALIZING OUTPUT"];
 const styleMap = {"Photorealistic":"photorealistic, ultra detailed, 8k","Concept Art":"concept art, artstation, digital painting","Anime / Cel-shaded":"anime style, cel-shaded, vibrant colors","Impressionist":"impressionist painting, painterly brushstrokes","Dark Fantasy":"dark fantasy, gothic, ominous atmosphere","Biopunk":"biopunk, organic machinery, bioluminescent"};
 const sizeMap = {"1:1 — Square":"1024x1024","16:9 — Landscape":"1792x1024","9:16 — Portrait":"1024x1792","21:9 — Cinematic":"1792x1024"};
-let busy = false, lastImageUrl = '', animInterval = null;
+const pkgCredits = {starter:5,basic:10,pro:25,unlimited:999};
+const pkgNames = {starter:'Starter',basic:'Basic',pro:'Pro',unlimited:'Unlimited'};
+
+updateCreditsUI();
+
+function updateCreditsUI() {
+  const c = credits;
+  document.getElementById('creditsCount').textContent = c === 999 ? '∞' : c;
+  document.querySelector('.credits-label').textContent = c === 999 ? 'Unlimited monthly plan' : c === FREE_CREDITS ? 'Free credits remaining' : 'Credits remaining';
+  const btn = document.getElementById('generateBtn');
+  if (c <= 0) { btn.disabled = true; btn.textContent = '[ NO CREDITS — BUY MORE ]'; }
+  else { btn.disabled = false; btn.textContent = '[ INITIALIZE SYNTHESIS ]'; }
+}
+
+function saveCredits() { localStorage.setItem('nexus_credits', credits); }
+
+function openModal() { document.getElementById('modalOverlay').classList.add('open'); document.getElementById('paymentMsg').textContent = ''; document.getElementById('paymentMsg').className = 'payment-msg'; }
+function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
+
+async function buyPackage(pkg) {
+  const msgEl = document.getElementById('paymentMsg');
+  msgEl.textContent = 'Creating order...';
+  msgEl.className = 'payment-msg';
+  try {
+    const res = await fetch(ORDER_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ package: pkg }) });
+    const order = await res.json();
+    if (!res.ok) { msgEl.textContent = 'Error: ' + (order.error || 'Order failed'); msgEl.className = 'payment-msg error'; return; }
+    const options = {
+      key: order.keyId,
+      amount: order.amount,
+      currency: order.currency,
+      name: 'NEXUS·AI',
+      description: pkgNames[pkg] + ' — ' + pkgCredits[pkg] + ' image credits',
+      order_id: order.orderId,
+      handler: async function(response) {
+        msgEl.textContent = 'Verifying payment...';
+        try {
+          const vRes = await fetch(PAYMENT_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ razorpay_order_id: response.razorpay_order_id, razorpay_payment_id: response.razorpay_payment_id, razorpay_signature: response.razorpay_signature, package: pkg }) });
+          const vData = await vRes.json();
+          if (vData.success) {
+            credits = pkg === 'unlimited' ? 999 : credits + vData.credits;
+            saveCredits(); updateCreditsUI();
+            msgEl.textContent = '✓ Payment successful! ' + (pkg === 'unlimited' ? 'Unlimited' : vData.credits) + ' credits added!';
+            msgEl.className = 'payment-msg success';
+            setTimeout(closeModal, 2500);
+          } else { msgEl.textContent = 'Verification failed: ' + vData.error; msgEl.className = 'payment-msg error'; }
+        } catch(e) { msgEl.textContent = 'Verification error: ' + e.message; msgEl.className = 'payment-msg error'; }
+      },
+      prefill: { name: '', email: '', contact: '' },
+      theme: { color: '#00cfff' },
+      modal: { ondismiss: function() { msgEl.textContent = 'Payment cancelled.'; } }
+    };
+    const rzp = new Razorpay(options);
+    rzp.open();
+  } catch(e) { msgEl.textContent = 'Error: ' + e.message; msgEl.className = 'payment-msg error'; }
+}
+
 function addTag(el, text) {
   el.classList.toggle('on');
   const inp = document.getElementById('promptInput');
   if (el.classList.contains('on')) { inp.value = (inp.value.trim() ? inp.value.trim() + ', ' : '') + text; }
-  else { inp.value = inp.value.replace(', ' + text, '').replace(text + ', ', '').replace(text, '').trim().replace(/^,|,$/g, '').trim(); }
+  else { inp.value = inp.value.replace(', '+text,'').replace(text+', ','').replace(text,'').trim().replace(/^,|,$/g,'').trim(); }
 }
+
 function status(t) { document.getElementById('statusText').textContent = t; }
 function showError(msg) { const el = document.getElementById('errorMsg'); el.textContent = msg; el.style.display = 'block'; }
 function clearError() { document.getElementById('errorMsg').style.display = 'none'; }
+
 function generate() {
   if (busy) return;
   clearError();
+  if (credits <= 0) { openModal(); return; }
   const prompt = document.getElementById('promptInput').value.trim();
   if (!prompt) { status('ERROR — PROMPT FIELD IS EMPTY'); return; }
   startGen(prompt);
 }
-function regenerate() { if (!busy) { clearError(); const p = document.getElementById('promptInput').value.trim(); if (p) startGen(p); } }
+
+function regenerate() {
+  if (!busy) { clearError(); if (credits <= 0) { openModal(); return; } const p = document.getElementById('promptInput').value.trim(); if (p) startGen(p); }
+}
+
 function startGen(prompt) {
   busy = true;
   document.getElementById('idle').style.display = 'none';
+  document.getElementById('noCredits').style.display = 'none';
   document.getElementById('result').style.display = 'none';
   document.getElementById('revisedPrompt').style.display = 'none';
   document.getElementById('loading').style.display = 'block';
@@ -228,31 +363,33 @@ function startGen(prompt) {
   let animStep = 0;
   animInterval = setInterval(() => {
     animStep++;
-    const p = Math.min(Math.round((animStep / steps.length) * 85), 85);
-    document.getElementById('bar').style.width = p + '%';
-    document.getElementById('loadPct').textContent = p + '%';
-    document.getElementById('loadLbl').textContent = steps[Math.min(animStep, steps.length - 1)];
+    const p = Math.min(Math.round((animStep/steps.length)*85),85);
+    document.getElementById('bar').style.width = p+'%';
+    document.getElementById('loadPct').textContent = p+'%';
+    document.getElementById('loadLbl').textContent = steps[Math.min(animStep,steps.length-1)];
   }, 900);
   callBackend(prompt);
 }
+
 async function callBackend(prompt) {
   const styleMode = document.getElementById('styleMode').value;
   const aspectVal = document.getElementById('aspect').value;
   const quality = document.getElementById('quality').value;
   const size = sizeMap[aspectVal] || '1024x1024';
-  const fullPrompt = prompt + (styleMap[styleMode] ? ', ' + styleMap[styleMode] : '');
+  const fullPrompt = prompt + (styleMap[styleMode] ? ', '+styleMap[styleMode] : '');
   const startTime = Date.now();
   try {
     const res = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ prompt: fullPrompt, size, quality }) });
     clearInterval(animInterval);
     const data = await res.json();
     if (!res.ok) { document.getElementById('loading').style.display = 'none'; document.getElementById('idle').style.display = 'block'; showError('ERROR — ' + (data.error || 'Unknown error')); status('SYNTHESIS FAILED'); busy = false; return; }
+    if (credits !== 999) { credits--; saveCredits(); updateCreditsUI(); }
     document.getElementById('bar').style.width = '100%';
     document.getElementById('loadPct').textContent = '100%';
-    const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+    const elapsed = ((Date.now()-startTime)/1000).toFixed(1);
     lastImageUrl = data.imageUrl;
     setTimeout(() => showResult(data.imageUrl, data.revisedPrompt, size, styleMode, elapsed), 400);
-  } catch (err) {
+  } catch(err) {
     clearInterval(animInterval);
     document.getElementById('loading').style.display = 'none';
     document.getElementById('idle').style.display = 'block';
@@ -261,25 +398,30 @@ async function callBackend(prompt) {
     busy = false;
   }
 }
+
 function showResult(url, revisedPrompt, size, mode, elapsed) {
   const img = document.getElementById('resultImg');
   img.src = url;
   img.onload = () => {
     document.getElementById('loading').style.display = 'none';
     document.getElementById('result').style.display = 'flex';
-    document.getElementById('resultMeta').textContent = size + ' · ' + mode + ' · ' + elapsed + 's · DALL·E 3';
-    if (revisedPrompt) { const rp = document.getElementById('revisedPrompt'); rp.textContent = 'AI revised: ' + revisedPrompt; rp.style.display = 'block'; }
+    document.getElementById('resultMeta').textContent = size+' · '+mode+' · '+elapsed+'s · DALL·E 3';
+    if (revisedPrompt) { const rp = document.getElementById('revisedPrompt'); rp.textContent = 'AI revised: '+revisedPrompt; rp.style.display = 'block'; }
     status('SYNTHESIS COMPLETE — OUTPUT READY');
+    if (credits <= 0) { document.getElementById('noCredits').style.display = 'block'; }
     busy = false;
   };
   img.onerror = () => { document.getElementById('loading').style.display = 'none'; document.getElementById('idle').style.display = 'block'; showError('IMAGE LOAD ERROR — Try regenerating.'); status('LOAD FAILED'); busy = false; };
 }
+
 function downloadImg() {
   if (!lastImageUrl) return;
-  const a = document.createElement('a'); a.href = lastImageUrl; a.download = 'nexus_ai_' + Date.now() + '.png'; a.target = '_blank'; a.click();
+  const a = document.createElement('a'); a.href = lastImageUrl; a.download = 'nexus_ai_'+Date.now()+'.png'; a.target = '_blank'; a.click();
   status('OPENING DOWNLOAD...');
   setTimeout(() => status('SYSTEM READY — AWAITING INPUT'), 2000);
 }
+
+document.getElementById('modalOverlay').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
 </script>
 </body>
 </html>
